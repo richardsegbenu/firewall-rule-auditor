@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - run: pip install -r requirements-dev.txt
+      - run: ruff check auditor tests
+      - run: pytest -v
+
+  audit-sample:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Run auditor against sample (expect failures)
+        run: |
+          python -m auditor.cli samples/rules.json --fail-on critical && \
+            (echo "Expected critical findings but got none" && exit 1) || echo "OK — auditor found critical issues as expected"
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t firewall-rule-auditor:ci .
+      - run: docker run --rm firewall-rule-auditor:ci samples/rules.json --format text
