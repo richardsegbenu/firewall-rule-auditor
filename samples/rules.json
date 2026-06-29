@@ -1,0 +1,68 @@
+{
+  "rules": [
+    {
+      "rule_id": "R001",
+      "action": "allow",
+      "source": ["10.0.0.0/8"],
+      "destination": ["10.1.0.0/16"],
+      "protocol": "tcp",
+      "ports": ["443"],
+      "description": "Allow internal HTTPS to web servers"
+    },
+    {
+      "rule_id": "R002",
+      "action": "allow",
+      "source": ["any"],
+      "destination": ["any"],
+      "protocol": "any",
+      "ports": [],
+      "description": "Temporary debug rule - REMOVE ME"
+    },
+    {
+      "rule_id": "R003",
+      "action": "allow",
+      "source": ["any"],
+      "destination": ["10.1.0.5"],
+      "protocol": "tcp",
+      "ports": ["22"],
+      "description": "SSH for ops"
+    },
+    {
+      "rule_id": "R004",
+      "action": "allow",
+      "source": ["any"],
+      "destination": ["10.1.0.6"],
+      "protocol": "tcp",
+      "ports": ["3389"],
+      "description": ""
+    },
+    {
+      "rule_id": "R005",
+      "action": "allow",
+      "source": ["10.0.0.0/8"],
+      "destination": ["10.1.0.0/16"],
+      "protocol": "tcp",
+      "ports": ["443"],
+      "description": "Duplicate of R001"
+    },
+    {
+      "rule_id": "R006",
+      "action": "allow",
+      "source": ["10.5.5.5/32"],
+      "destination": ["10.1.0.0/24"],
+      "protocol": "tcp",
+      "ports": ["443"],
+      "description": "Shadowed by R001 (covered by 10.0.0.0/8)"
+    },
+    {
+      "rule_id": "R007",
+      "action": "deny",
+      "source": ["any"],
+      "destination": ["any"],
+      "protocol": "any",
+      "ports": [],
+      "description": "Default deny",
+      "enabled": false
+    }
+  ]
+}
