@@ -18,10 +18,10 @@ This tool runs the same checks an auditor would, but in seconds and as part of e
 |---|---|---|
 | `ANY_ANY_ALLOW` | Critical | A rule that allows any source to any destination on any protocol/port |
 | `HIGH_RISK_PORT_OPEN` | High | SSH, RDP, SMB, database ports etc. open to "any" source |
-| `SHADOWED_RULE` | Medium | A rule covered by an earlier rule with the same action — will never fire |
+| `SHADOWED_RULE` | Medium | A rule covered by an earlier rule with the same action, will never fire |
 | `REDUNDANT_RULES` | Medium | Two rules with identical predicates and action |
 | `DISABLED_RULE` | Info | Disabled rules left in the ruleset (housekeeping) |
-| `MISSING_DESCRIPTION` | Low | Rules with no description — unauditable |
+| `MISSING_DESCRIPTION` | Low | Rules with no description, unauditable |
 
 Adding a new check is one function. See `auditor/checks.py`.
 
@@ -64,7 +64,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: docker/setup-buildx-action@v3
       - run: |
-          docker run --rm -v $PWD:/work YOUR_REGISTRY/firewall-rule-auditor:latest \
+          docker run --rm -v $PWD:/work <your-registry>/firewall-rule-auditor:latest \
             /work/firewall/production.json --fail-on high
 ```
 
@@ -87,7 +87,7 @@ JSON (canonical):
 }
 ```
 
-YAML works the same way. iptables-save is auto-detected from common predicates (`-s`, `-d`, `-p`, `--dport`, `-j`). For other vendor formats, write a loader — see `auditor/loaders.py`.
+YAML works the same way. iptables-save is auto-detected from common predicates (`-s`, `-d`, `-p`, `--dport`, `-j`). For other vendor formats, write a loader. See `auditor/loaders.py`.
 
 ## Testing
 
