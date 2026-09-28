@@ -5,6 +5,8 @@ authoritative. This package only adds plain-English narratives on top and
 never creates, removes, or re-grades a finding.
 """
 
+from auditor.ai.prompt import build_prompt, finding_id, finding_to_dict
+from auditor.ai.review import review_findings
 from auditor.ai.schema import (
     ReviewNarrative,
     SchemaError,
@@ -17,4 +19,8 @@ __all__ = [
     "SchemaError",
     "parse_narrative",
     "parse_response",
+    "build_prompt",
+    "finding_id",
+    "finding_to_dict",
+    "review_findings",
 ]
