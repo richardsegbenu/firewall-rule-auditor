@@ -99,7 +99,13 @@ class ResponseCache:
 
 
 class CachingProvider(Provider):
-    """Wraps any Provider and serves repeat prompts from disk."""
+    """Wraps any Provider and serves repeat prompts from disk.
+
+    Compose this outermost. With a budget underneath, as in
+    CachingProvider(BudgetedProvider(inner)), a cache hit returns before
+    the budget is consulted and costs nothing. The other way round, repeat
+    prompts would spend quota on calls that never reach the network.
+    """
 
     def __init__(self, inner, cache=None):
         self.inner = inner
