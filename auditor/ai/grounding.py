@@ -120,3 +120,16 @@ def check_grounding(narratives, findings) -> GroundingResult:
         result.accepted.append(narrative)
 
     return result
+
+
+def merge(results) -> GroundingResult:
+    """Combine per-batch GroundingResults into one.
+
+    Batching is a transport detail. The caller asked about a set of
+    findings and should get one answer, not one per chunk.
+    """
+    merged = GroundingResult()
+    for result in results:
+        merged.accepted.extend(result.accepted)
+        merged.rejected.extend(result.rejected)
+    return merged

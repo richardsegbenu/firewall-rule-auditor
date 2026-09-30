@@ -5,14 +5,25 @@ authoritative. This package only adds plain-English narratives on top and
 never creates, removes, or re-grades a finding.
 """
 
+from auditor.ai.budget import (
+    BudgetedProvider,
+    BudgetExceeded,
+    CallBudget,
+)
+from auditor.ai.cache import CachingProvider, ResponseCache, cache_key
 from auditor.ai.grounding import (
     GroundingResult,
     Rejection,
     check_grounding,
+    merge,
     ungrounded_references,
 )
 from auditor.ai.prompt import build_prompt, finding_id, finding_to_dict
-from auditor.ai.review import review_findings, review_findings_detailed
+from auditor.ai.review import (
+    batch_findings,
+    review_findings,
+    review_findings_detailed,
+)
 from auditor.ai.schema import (
     ReviewNarrative,
     SchemaError,
@@ -30,8 +41,16 @@ __all__ = [
     "finding_to_dict",
     "review_findings",
     "review_findings_detailed",
+    "batch_findings",
     "GroundingResult",
     "Rejection",
     "check_grounding",
+    "merge",
     "ungrounded_references",
+    "ResponseCache",
+    "CachingProvider",
+    "cache_key",
+    "CallBudget",
+    "BudgetedProvider",
+    "BudgetExceeded",
 ]
